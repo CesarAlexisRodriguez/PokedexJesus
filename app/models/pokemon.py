@@ -1,35 +1,16 @@
 from app import mongo
+from app.models.super_clase import SuperClass
 
-class pokemon:
-    collection = mongo.db.pokemon
+class pokemon(SuperClass):
+    def __init__(self):
+        super().__init__("pokemons")
 
-#metodo para encontrar todos los pokemons
-    @staticmethod
-    def find_all():
-        pokemons = pokemon.collection.find()
-        return list(pokemons)
-    
-    @staticmethod
-    def find_by_id(pokemon_id):
-        pokemon = pokemon.collection.find_one({
-            "_id": pokemon_id
-            })
-        return pokemon
-    
-    @staticmethod
-    def create(data):
-        pokemon = pokemon.collection.insert_one(data)
-        return pokemon.inserted_id
-    
-    @staticmethod
-    def update(pokemon_id, data):
-        pokemon = pokemon.collection.update_one({
-            "_id": pokemon_id
-        }, {
-            "$set": data
-        })
-        return pokemon
-    
-    @staticmethod
-    def delete(pokemon_id):
-        return pokemon.collection.delete_one({"_id": pokemon_id})
+        def create(self, data):
+            raise NotImplementedError("No se puede crear un pokemon")
+        
+        def delete(self, object_id):
+            raise NotImplementedError("No se puede eliminar un pokemon")
+        
+        def update(self, object_id, data):
+            raise NotImplementedError("No se pueden actualizar un pokemon")
+        
