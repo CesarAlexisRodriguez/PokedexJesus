@@ -13,5 +13,6 @@ class users(SuperClass):
                 "email": email,
                 "password": password
             })
+            user["_id"] = str(user["_id"])
             return user
         

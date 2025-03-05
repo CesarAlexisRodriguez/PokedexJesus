@@ -8,10 +8,10 @@ class UserSchema(Schema):
     
     password = fields.String(
         required=True,
-        validate=lambda x: len(x) > 8,
+        validate=lambda x: len(x) > 0,
         error_messages={"required": "la contraseña es requerida"})
     
-    email = fields.String(
+    email = fields.Email(
         required=True,
-        validate=lambda x: "@" in x,
+        validate=lambda x: "@utma.edu.mx" in x,
         error_messages={"required": "El nombre es requerido"})

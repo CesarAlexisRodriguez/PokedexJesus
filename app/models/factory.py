@@ -1,5 +1,5 @@
-from app.models.pokemon import pokemon
-from app.models.pokemons_fav import pokemonfavorites
+from app.models.pokemon import Pokemon
+from app.models.pokemons_fav import PokemonFavorites
 from app.models.users import users
 
 class modelfactory:
@@ -7,9 +7,10 @@ class modelfactory:
     def get_model(collection_name):
         models = {
             "users": users,
-            "pokemons": pokemon,
-            "pokemon_favorites": pokemonfavorites
+            "pokemons": Pokemon, #en ves de pokemon era pokemons
+            "pokemon_favorites": PokemonFavorites
         }
-        if collection_name not in models:
-            raise models[collection_name]()
-        raise ValueError(f"la coleccion enviada: {collection_name} no existe")
+        if collection_name in models:
+            return models[collection_name]() #
+        else:
+            raise ValueError(f"la coleccion enviada: {collection_name} no existe")

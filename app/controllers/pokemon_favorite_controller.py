@@ -1,27 +1,39 @@
-#crea 
-#elimina
-#get all
-#modificar la clase del modelo y evitar que se usen metodos no permitidos
-
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
+from app.tools.response_manager import ResponseManager
+from app.schemas.pokemon_favorite_schema import PokemonFavoriteSchema, ValidationError
+from bson import ObjectId
 from app.models.factory import modelfactory
 from bson import ObjectId
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 bp = Blueprint('favorite_pokemons', __name__, url_prefix='/favorite_pokemons')
-favorite_pokemon_model = modelfactory.get_model("favorite_pokemon")
-
-@bp.route('/get_all', methods=["GET"])
-def get_all():
-    favorites = favorite_pokemon_model.find_all()
-    return jsonify(favorites), 200
-
-@bp.route('/create', methods=["POST"])
+RM = ResponseManager()
+FP_MODEL = modelfactory
+FP_SCHEMA = PokemonFavoriteSchema
+#crear
+@bp.route('/get all', methods=['POST'])
+@jwt_required()
 def create():
-    data = request.json
-    favorite_id = favorite_pokemon_model.create(data)
-    return jsonify({"favorite_id": str(favorite_id)}), 200
-
-@bp.route('/delete/<string:favorite_id>', methods=["DELETE"])
-def delete(favorite_id):
-    favorite_pokemon_model.delete(ObjectId(favorite_id))
-    return jsonify("Pokémon favorito eliminado con éxito"), 200
+    user_id = get_jwt_identity()
+    try:
+        data = request.json
+        data = FP_SCHEMA.load(data)
+        data["user_id"] = user_id
+        fp = FP_MODEL.create(data)
+        return RM.success({"_id": fp})
+    except ValidationError as err:
+        print(err)
+        return RM.error("Es necesaeio enviar todos los parametros")
+#Eliminar
+@bp.route("/<string:id>", methods=["DELETE"])
+@jwt_required()
+def delete(id):
+    FP_MODEL.delete(ObjectId(id))
+    return RM.success("Pokemon eliminado con exito")
+#get all
+@bp.route("/", methods=["GET"])
+@jwt_required()
+def get_all():
+    user_id = get_jwt_identity()
+    data = FP_MODEL.find_all(user_id)
+    return RM.success(data)
