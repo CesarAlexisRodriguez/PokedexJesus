@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    font-family: 'Verdana', sans-serif;
+    background: linear-gradient(to top, #3b4cca, #ffffff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .editar-box {
+    background-color: #fefefe;
+    border: 5px solid #ffcb05;
+    border-radius: 20px;
+    padding: 40px;
+    width: 400px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+  
+  .titulo {
+    text-align: center;
+    color: #3b4cca;
+    margin-bottom: 25px;
+    font-size: 24px;
+  }
+  
+  label {
+    font-weight: bold;
+    display: block;
+    margin: 10px 0 5px;
+    color: #333;
+  }
+  
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #3b4cca;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  button {
+    width: 100%;
+    background-color: #ff0000;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background-color: #cc0000;
+  }
+  
+  .volver {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #3b4cca;
+  }
+  
